@@ -1,0 +1,4 @@
+rootProject.name='My Application'
+include ':homeTask_02'
+include ':homeTask_01'
+include ':homeTask_02_view'

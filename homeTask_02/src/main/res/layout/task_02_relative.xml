@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:background="@color/grey"
+        >
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/photo"
+            android:textColor="@color/black"
+            android:textSize="100sp" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            app:srcCompat="@android:drawable/ic_menu_camera" />
+
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frame"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:hint="Title"/>
+
+    <EditText
+        android:id="@+id/price"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:hint="Price"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:layout_alignBottom="@+id/price"
+        android:layout_toEndOf="@+id/price"
+        android:autofillHints="Location" />
+
+    <EditText
+        android:id="@+id/description"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:hint="Description"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/price"
+        android:layout_alignParentStart="true"/>
+
+    <EditText
+        android:id="@+id/inventory"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:hint="Inventory"
+        android:layout_margin="5dp"
+        android:layout_below="@+id/description"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:id="@+id/weight"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/description"
+        android:layout_margin="5dp"
+        android:layout_alignParentEnd="true"
+        android:hint="Weight" />
+
+
+
+
+
+</RelativeLayout>

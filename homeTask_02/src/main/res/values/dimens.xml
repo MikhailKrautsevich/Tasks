@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="dim_t01_tlo">30sp</dimen>
+    <dimen name="framelayout_height_t2">250dp</dimen>
+</resources>
