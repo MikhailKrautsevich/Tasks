@@ -2,23 +2,28 @@ package com.example.hometask_03_contacts;
 
 class ContactClass {
     String name;
-    String number;
+    String numberOrEmail;
+    boolean isEmail = false ;
 
     String getName() {
         return this.name;
     }
 
-    String getNumber() {
-        return number;
+    String getNumberOrEmail() {
+        return numberOrEmail;
     }
 
-    void setEmail(String email) {
-        this.number = number;
+    boolean isItEmail() {return isEmail; }
+
+    void setNumberOrEmail(String numberOrEmail) {
+        this.numberOrEmail = numberOrEmail;
     }
 
     void setName(String name) {
         this.name = name;
     }
+
+    void itIsEmail() {this.isEmail = true ;}
 
 
 }

@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -30,6 +31,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         ImageButton addNewContact = findViewById(R.id.addNewContact) ;
+        addNewContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, Activity_add.class) ;
+                startActivity(intent);
+            }
+        });
 
         recyclerContacts = findViewById(R.id.recyclerContacts);
         recyclerContacts.setAdapter(new NameListAdapter());
@@ -55,10 +63,11 @@ public class MainActivity extends AppCompatActivity {
             holder.bindData(contacts.get(position));
         }
 
-        void addItem(String name, String email) {
+        void addItem(String name, String email, boolean isEmail) {
             ContactClass newContact = new ContactClass() ;
-            newContact.setEmail(email);
+            newContact.setNumberOrEmail(email);
             newContact.setName(name);
+            if (isEmail) {newContact.itIsEmail();}
             contacts.add(newContact);
 //            notifyItemChanged(items.indexOf(name)); // for item
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -87,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
             void bindData(ContactClass contact) {
                 nameText.setText(contact.getName());
-                emailText.setText(contact.getNumber());
+                emailText.setText(contact.getNumberOrEmail());
             }
         }
     }
