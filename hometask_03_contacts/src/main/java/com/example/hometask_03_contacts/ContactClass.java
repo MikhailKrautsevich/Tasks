@@ -1,9 +1,17 @@
 package com.example.hometask_03_contacts;
 
+
 class ContactClass {
-    String name;
-    String numberOrEmail;
+    private String name;
+    private String numberOrEmail;
     boolean isEmail = false ;
+
+    ContactClass(String name, boolean is, String info)
+    {
+        setName(name);
+        itIsEmail(is);
+        setNumberOrEmail(info);
+    }
 
     String getName() {
         return this.name;
@@ -23,7 +31,5 @@ class ContactClass {
         this.name = name;
     }
 
-    void itIsEmail() {this.isEmail = true ;}
-
-
+    void itIsEmail(boolean is) {this.isEmail = is;}
 }

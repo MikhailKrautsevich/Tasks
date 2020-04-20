@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/topOfAddActivity"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@color/blue"
@@ -40,9 +43,11 @@
     </LinearLayout>
 
     <RadioGroup
-        android:id="@+id/email_or_phoneNumber"
+        android:id="@+id/email_Or_phoneNumber"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/topOfAddActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,17 +60,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
-                android:text="Phone number"
-                android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:layout_marginTop="10dp"
+                android:text="PhoneNumber"
+                android:textSize="20sp"
+                android:onClick="onRadioClick"
+                android:checked="true"/>
 
         </LinearLayout>
 
@@ -80,17 +79,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:text="Email"
-                android:textColor="@color/black"
-                android:textSize="20sp"/>
+                android:textSize="20sp"
+                android:onClick="onRadioClick"/>
 
         </LinearLayout>
 
@@ -101,10 +93,12 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:hint="Name"
+        app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toBottomOf="@id/email_Or_phoneNumber" />
 
     <EditText
         android:id="@+id/phoneNumberAdd"
@@ -114,6 +108,20 @@
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"/>
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameAddText"/>
 
-</LinearLayout>
+    <EditText
+        android:id="@+id/emailAdd"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="Email"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nameAddText"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

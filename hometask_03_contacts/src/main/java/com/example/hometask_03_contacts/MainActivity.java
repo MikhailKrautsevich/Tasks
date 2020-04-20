@@ -5,48 +5,74 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
 
-
-    private RecyclerView recyclerContacts;
-
+    RecyclerView recyclerContacts;
+    private TextView noContacts;
+    static final int ADD_NEW_CONTACT = 900 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        noContacts = findViewById(R.id.noContacts) ;
 
         ImageButton addNewContact = findViewById(R.id.addNewContact) ;
         addNewContact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, Activity_add.class) ;
-                startActivity(intent);
+                startActivityForResult(intent, ADD_NEW_CONTACT);
             }
         });
 
         recyclerContacts = findViewById(R.id.recyclerContacts);
         recyclerContacts.setAdapter(new NameListAdapter());
-        recyclerContacts.setLayoutManager(new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerContacts.setLayoutManager(
+                new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+        recyclerContacts.setVisibility(View.INVISIBLE);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
+        if (adapter1.isListOfContactsEmpty()) {recyclerContacts.setVisibility(View.INVISIBLE);
+            noContacts.setVisibility(View.VISIBLE);}
+        else {recyclerContacts.setVisibility(View.VISIBLE);
+            noContacts.setVisibility(View.INVISIBLE);}
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        boolean is = data.getBooleanExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, false) ;
+        String conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME) ;
+        String conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO) ;
+        ContactClass newContact = new ContactClass(conName, is, conInfo) ;
+        NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter() ;
+        if (conInfo!=null || conName!=null) adapter1.addItem(newContact);
+    }
+
 
     static class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> {
 
-        private ArrayList<ContactClass> contacts = new ArrayList<>();
+        static ArrayList<ContactClass> contacts = new ArrayList<>();
 
         NameListAdapter() {
         }
@@ -54,7 +80,8 @@ public class MainActivity extends AppCompatActivity {
         @NonNull
         @Override
         public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.contact_element, parent, false);
+            View view = LayoutInflater.from(parent.getContext()).
+                    inflate(R.layout.contact_element, parent, false);
             return new ItemViewHolder(view);
         }
 
@@ -63,11 +90,12 @@ public class MainActivity extends AppCompatActivity {
             holder.bindData(contacts.get(position));
         }
 
-        void addItem(String name, String email, boolean isEmail) {
-            ContactClass newContact = new ContactClass() ;
-            newContact.setNumberOrEmail(email);
-            newContact.setName(name);
-            if (isEmail) {newContact.itIsEmail();}
+        public boolean isListOfContactsEmpty(){
+            if (contacts.isEmpty() || contacts==null) return true ;
+            else return false ;
+        }
+
+        public void addItem(ContactClass newContact) {
             contacts.add(newContact);
 //            notifyItemChanged(items.indexOf(name)); // for item
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
@@ -87,9 +115,12 @@ public class MainActivity extends AppCompatActivity {
         static class ItemViewHolder extends RecyclerView.ViewHolder {
             private TextView nameText;
             private TextView emailText;
+            private ImageView phNumberPic, emailPic ;
 
             ItemViewHolder(@NonNull View itemView) {
                 super(itemView);
+                phNumberPic = itemView.findViewById(R.id.phNumberPic) ;
+                emailPic = itemView.findViewById(R.id.emailPic) ;
                 nameText = itemView.findViewById(R.id.nameText);
                 emailText = itemView.findViewById(R.id.emailText);
             }
@@ -97,12 +128,16 @@ public class MainActivity extends AppCompatActivity {
             void bindData(ContactClass contact) {
                 nameText.setText(contact.getName());
                 emailText.setText(contact.getNumberOrEmail());
+                if (contact.isEmail) {phNumberPic.setVisibility(View.INVISIBLE);
+                                        emailText.setVisibility(View.VISIBLE);
+                                        nameText.setTextColor(Color.GREEN);}
+                if (!contact.isEmail) {phNumberPic.setVisibility(View.VISIBLE);
+                                        emailPic.setVisibility(View.INVISIBLE);
+                                        nameText.setTextColor(Color.CYAN);}}
             }
         }
     }
 
-
-}
 
 
 

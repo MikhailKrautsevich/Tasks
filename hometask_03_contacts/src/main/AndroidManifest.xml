@@ -16,8 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity_add"
-            android:label="to Add"/>
+        <activity android:name=".Activity_add"/>
     </application>
 
 </manifest>
