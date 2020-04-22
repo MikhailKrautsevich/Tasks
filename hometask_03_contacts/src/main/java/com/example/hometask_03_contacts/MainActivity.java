@@ -44,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerContacts = findViewById(R.id.recyclerContacts);
         recyclerContacts.setAdapter(new NameListAdapter());
         recyclerContacts.setLayoutManager(
-                new LinearLayoutManager(this, RecyclerView.VERTICAL, false));
+                new LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        );
         recyclerContacts.setVisibility(View.INVISIBLE);
     }
 

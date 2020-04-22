@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -23,8 +24,11 @@ public class Activity_add extends Activity {
         setContentView(R.layout.activity_add);
         answerIntent = new Intent() ;
 
+        RadioGroup radioGroup = (RadioGroup) findViewById(R.id.email_Or_phoneNumber);
         phoneNumberRadButton = findViewById(R.id.phoneNumberRadButton) ;
         emailRadButton = findViewById(R.id.emailRadButton) ;
+        radioGroup.addView(phoneNumberRadButton);
+        radioGroup.addView(emailRadButton);
 
         nameAddText = findViewById(R.id.nameAddText) ;
         phoneNumberAdd = findViewById(R.id.phoneNumberAdd) ;
@@ -86,12 +90,10 @@ public class Activity_add extends Activity {
             case R.id.phoneNumberRadButton:
                 phoneNumberAdd.setVisibility(View.VISIBLE);
                 emailAdd.setVisibility(View.INVISIBLE);
-                emailRadButton.setChecked(false);
                 break;
             case R.id.emailRadButton:
                 phoneNumberAdd.setVisibility(View.INVISIBLE);
                 emailAdd.setVisibility(View.VISIBLE);
-                phoneNumberRadButton.setChecked(false);
                 break;
             default:
                 break;
