@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,7 +30,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
-            android:text="Add contact"
+            android:text="@string/add_contact"
             android:textColor="@color/white"
             android:textSize="25sp" />
 
@@ -61,7 +62,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="PhoneNumber"
+                android:text="@string/phonenumber"
                 android:textSize="20sp"
                 android:onClick="onRadioClick"
                 android:checked="true"/>
@@ -80,7 +81,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:text="Email"
+                android:text="@string/email"
                 android:textSize="20sp"
                 android:onClick="onRadioClick"/>
 
@@ -92,7 +93,7 @@
         android:id="@+id/nameAddText"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Name"
+        android:hint="@string/name"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
@@ -104,7 +105,7 @@
         android:id="@+id/phoneNumberAdd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Phone number"
+        android:hint="@string/phone_number"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
@@ -116,7 +117,7 @@
         android:id="@+id/emailAdd"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:hint="Email"
+        android:hint="@string/email"
         android:layout_marginStart="10dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

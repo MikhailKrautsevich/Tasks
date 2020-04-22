@@ -1,5 +1,13 @@
 <resources>
     <string name="app_name">homeTask_03_contacts</string>
     <string name="title_activity_example">example</string>
+    <string name="add_contact">Add contact</string>
+    <string name="phonenumber">PhoneNumber</string>
+    <string name="phone_number">Phone number</string>
+    <string name="edit_contact">Edit contact</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="remove">Remove</string>
+    <string name="no_contacts_please_add">No contacts. Please add</string>
 
 </resources>
