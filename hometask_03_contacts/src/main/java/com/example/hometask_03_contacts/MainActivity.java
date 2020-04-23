@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import static android.widget.Toast.*;
+
 
 public class MainActivity extends AppCompatActivity {
 
@@ -53,21 +55,35 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
-        if (adapter1.isListOfContactsEmpty()) {recyclerContacts.setVisibility(View.INVISIBLE);
-            noContacts.setVisibility(View.VISIBLE);}
-        else {recyclerContacts.setVisibility(View.VISIBLE);
-            noContacts.setVisibility(View.INVISIBLE);}
+        if (adapter1 != null && adapter1.isListOfContactsEmpty()) {
+            recyclerContacts.setVisibility(View.INVISIBLE);
+            noContacts.setVisibility(View.VISIBLE);
+        } else {
+            recyclerContacts.setVisibility(View.VISIBLE);
+            noContacts.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         boolean is = data.getBooleanExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, false) ;
-        String conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME) ;
-        String conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO) ;
-        ContactClass newContact = new ContactClass(conName, is, conInfo) ;
-        NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter() ;
-        if (conInfo!=null || conName!=null) adapter1.addItem(newContact);
+        if (!(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME)==null) &&
+                !(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO)==null)) {
+            String conInfo;
+            String conName;
+            conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME).trim();
+            conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO).trim();
+            ContactClass newContact = new ContactClass(conName, is, conInfo);
+            NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
+            if (!conInfo.isEmpty() && !conName.isEmpty()) {
+                assert adapter1 != null;
+                adapter1.addItem(newContact);
+            } else {
+                Toast.makeText(getApplicationContext(), R.string.somethingwrongwithc, LENGTH_SHORT)
+                        .show();
+            }
+        }
     }
 
 
@@ -91,12 +107,11 @@ public class MainActivity extends AppCompatActivity {
             holder.bindData(contacts.get(position));
         }
 
-        public boolean isListOfContactsEmpty(){
-            if (contacts.isEmpty() || contacts==null) return true ;
-            else return false ;
+        private boolean isListOfContactsEmpty(){
+            return contacts.isEmpty();
         }
 
-        public void addItem(ContactClass newContact) {
+        private void addItem(ContactClass newContact) {
             contacts.add(newContact);
 //            notifyItemChanged(items.indexOf(name)); // for item
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {

@@ -9,5 +9,10 @@
     <string name="email">Email</string>
     <string name="remove">Remove</string>
     <string name="no_contacts_please_add">No contacts. Please add</string>
+    <string name="somethingwrongwithc">Something wrong with contact to add</string>
+    <string name="choosecontype">Выберите тип контакта</string>
+    <string name="wilsavephnumber">Будем сохранять номер телефона</string>
+    <string name="willsaveemail">Будем сохранять емайл</string>
+    <string name="youhavetochoose">Ты определись</string>
 
 </resources>

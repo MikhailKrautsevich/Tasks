@@ -23,13 +23,13 @@ class ContactClass {
 
     boolean isItEmail() {return isEmail; }
 
-    void setNumberOrEmail(String numberOrEmail) {
+    private void setNumberOrEmail(String numberOrEmail) {
         this.numberOrEmail = numberOrEmail;
     }
 
-    void setName(String name) {
+    private void setName(String name) {
         this.name = name;
     }
 
-    void itIsEmail(boolean is) {this.isEmail = is;}
+    private void itIsEmail(boolean is) {this.isEmail = is;}
 }
