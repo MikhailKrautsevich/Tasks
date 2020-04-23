@@ -21,8 +21,6 @@ class ContactClass {
         return numberOrEmail;
     }
 
-    boolean isItEmail() {return isEmail; }
-
     private void setNumberOrEmail(String numberOrEmail) {
         this.numberOrEmail = numberOrEmail;
     }

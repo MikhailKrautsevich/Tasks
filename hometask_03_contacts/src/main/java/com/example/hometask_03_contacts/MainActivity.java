@@ -105,10 +105,8 @@ public class MainActivity extends AppCompatActivity {
     class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> {
 
         ArrayList<ContactClass> contacts = new ArrayList<>();
-        private Context context;
 
         NameListAdapter(Context context) {
-            this.context = context ;
 
         }
 
