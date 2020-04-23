@@ -47,11 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/topOfAddActivity">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        app:layout_constraintTop_toBottomOf="@id/topOfAddActivity"
+        android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/phoneNumberRadButton"
@@ -69,14 +66,14 @@
                 android:id="@+id/emailRadButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="50dp"
-                android:layout_marginLeft="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
                 android:onClick="onRadioClick"
                 android:text="@string/email"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/phoneNumberRadButton" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintStart_toEndOf="@+id/phoneNumberRadButton"
+                android:layout_marginLeft="20dp" />
     </RadioGroup>
 
     <EditText

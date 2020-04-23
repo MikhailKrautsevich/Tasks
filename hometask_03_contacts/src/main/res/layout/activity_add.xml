@@ -50,11 +50,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/topOfAddActivity">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
             <RadioButton
                 android:id="@+id/phoneNumberRadButton"
                 android:layout_width="wrap_content"
@@ -67,13 +62,6 @@
                 android:onClick="onRadioClick"
                 android:checked="true"/>
 
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:orientation="horizontal">
-
             <RadioButton
                 android:id="@+id/emailRadButton"
                 android:layout_width="wrap_content"
@@ -84,8 +72,6 @@
                 android:text="@string/email"
                 android:textSize="20sp"
                 android:onClick="onRadioClick"/>
-
-        </LinearLayout>
 
     </RadioGroup>
 
