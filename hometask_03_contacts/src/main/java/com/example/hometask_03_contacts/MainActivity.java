@@ -4,7 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -16,9 +16,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import static android.widget.Toast.*;
 
 
@@ -27,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerContacts;
     private TextView noContacts;
     static final int ADD_NEW_CONTACT = 900 ;
+    static final int EDIT_CONTACT = 901 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         recyclerContacts = findViewById(R.id.recyclerContacts);
-        recyclerContacts.setAdapter(new NameListAdapter());
+        recyclerContacts.setAdapter(new NameListAdapter(this));
         recyclerContacts.setLayoutManager(
                 new LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         );
@@ -67,31 +66,50 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        boolean is = data.getBooleanExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, false) ;
-        if (!(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME)==null) &&
-                !(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO)==null)) {
-            String conInfo;
-            String conName;
-            conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME).trim();
-            conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO).trim();
-            ContactClass newContact = new ContactClass(conName, is, conInfo);
-            NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
-            if (!conInfo.isEmpty() && !conName.isEmpty()) {
-                assert adapter1 != null;
-                adapter1.addItem(newContact);
-            } else {
-                Toast.makeText(getApplicationContext(), R.string.somethingwrongwithc, LENGTH_SHORT)
-                        .show();
+        NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
+        switch(requestCode) {
+            case (ADD_NEW_CONTACT): {
+                boolean is = data.getBooleanExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, false);
+                if (!(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME) == null) &&
+                        !(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO) == null)) {
+                    String conInfo;
+                    String conName;
+                    conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME).trim();
+                    conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO).trim();
+                    ContactClass newContact = new ContactClass(conName, is, conInfo);
+
+                    if (!conInfo.isEmpty() && !conName.isEmpty()) {
+                        assert adapter1 != null;
+                        adapter1.addItem(newContact);
+                    } else {
+                        Toast.makeText(getApplicationContext(), R.string.somethingwrongwithc, LENGTH_SHORT)
+                                .show();
+                    }
+                }
+                break;
             }
+            case (EDIT_CONTACT): {
+                if (resultCode == RESULT_OK) {
+//                    Toast.makeText(this, "Try to remove", LENGTH_SHORT).show();
+                    int position = data.getIntExtra(EXTRAS.EXTRA_FOR_CON_REMOVE, 9);
+                    assert adapter1 != null;
+                    adapter1.removeItem(position);
+                }
+                break;
+            }
+            default:
+                break;
         }
     }
 
+    class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> {
 
-    static class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> {
+        ArrayList<ContactClass> contacts = new ArrayList<>();
+        private Context context;
 
-        static ArrayList<ContactClass> contacts = new ArrayList<>();
+        NameListAdapter(Context context) {
+            this.context = context ;
 
-        NameListAdapter() {
         }
 
         @NonNull
@@ -128,13 +146,33 @@ public class MainActivity extends AppCompatActivity {
             return 0;}
         }
 
-        static class ItemViewHolder extends RecyclerView.ViewHolder {
+        void removeItem(int position) {
+            if (contacts.size() >= position)
+            {contacts.remove(position);}
+            notifyDataSetChanged();
+        }
+
+        class ItemViewHolder extends RecyclerView.ViewHolder{
             private TextView nameText;
             private TextView emailText;
             private ImageView phNumberPic, emailPic ;
 
             ItemViewHolder(@NonNull View itemView) {
                 super(itemView);
+                itemView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        int position = getAdapterPosition();
+                        ContactClass contactClass = contacts.get(position) ;
+ //                       Toast.makeText(context, contactClass.getName(), LENGTH_SHORT).show();
+                        Intent remIntent = new Intent(MainActivity.this, Activity_edit.class);
+                        remIntent.putExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME, contactClass.getName());
+                        remIntent.putExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO, contactClass.getNumberOrEmail());
+                        remIntent.putExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, contactClass.isEmail);
+                        remIntent.putExtra(EXTRAS.EXTRA_FOR_CON_REMOVE, position) ;
+                        startActivityForResult(remIntent, EDIT_CONTACT);
+                    }
+                });
                 phNumberPic = itemView.findViewById(R.id.phNumberPic) ;
                 emailPic = itemView.findViewById(R.id.emailPic) ;
                 nameText = itemView.findViewById(R.id.nameText);
@@ -145,12 +183,12 @@ public class MainActivity extends AppCompatActivity {
                 nameText.setText(contact.getName());
                 emailText.setText(contact.getNumberOrEmail());
                 if (contact.isEmail) {phNumberPic.setVisibility(View.INVISIBLE);
-                                        emailText.setVisibility(View.VISIBLE);
+                                        emailPic.setVisibility(View.VISIBLE);
                                         nameText.setTextColor(Color.GREEN);}
                 if (!contact.isEmail) {phNumberPic.setVisibility(View.VISIBLE);
                                         emailPic.setVisibility(View.INVISIBLE);
                                         nameText.setTextColor(Color.CYAN);}}
-            }
+        }
         }
     }
 

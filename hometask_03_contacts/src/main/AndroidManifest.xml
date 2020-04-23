@@ -17,6 +17,7 @@
         </activity>
         <activity android:name=".Activity_add"
             android:screenOrientation="fullSensor"/>
+        <activity android:name=".Activity_edit"/>
     </application>
 
 </manifest>
