@@ -35,8 +35,9 @@ public class MainActivity extends AppCompatActivity {
     static final int EDIT_CONTACT = 901 ;
     static ArrayList<ContactClass> contacts = new ArrayList<>();
     NameListAdapter adapter1;
-    LinearLayoutManager linearLayoutManager;
-    GridLayoutManager gridLayoutManager;
+    LinearLayoutManager linearLayoutManager ;
+    GridLayoutManager gridLayoutManager ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +55,22 @@ public class MainActivity extends AppCompatActivity {
         });
 
         if (linearLayoutManager == null) {
-            linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false) ;}
-        if (gridLayoutManager == null) {
+        linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);}
+        if (gridLayoutManager == null)  {
         gridLayoutManager = new GridLayoutManager(this, 2);}
+
+        recyclerContacts = findViewById(R.id.recyclerContacts);
+        recyclerContacts.setAdapter(new NameListAdapter(this));
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
         {recyclerContacts.setLayoutManager(linearLayoutManager);}
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
         {recyclerContacts.setLayoutManager(gridLayoutManager) ;}
         recyclerContacts.setVisibility(View.INVISIBLE);
-        if (adapter1==null) {
-            adapter1 = (NameListAdapter) recyclerContacts.getAdapter();}
+        if (adapter1==null)
+        adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
 
-        recyclerContacts = findViewById(R.id.recyclerContacts);
-        recyclerContacts.setAdapter(adapter1);
-
-        SearchView searchView = findViewById(R.id.search) ;
+        SearchView searchView = (SearchView) findViewById(R.id.search) ;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
