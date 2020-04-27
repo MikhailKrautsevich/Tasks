@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerContacts = findViewById(R.id.recyclerContacts);
         recyclerContacts.setAdapter(adapter1);
 
-        SearchView searchView = (SearchView) findViewById(R.id.search) ;
+        SearchView searchView = findViewById(R.id.search) ;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
