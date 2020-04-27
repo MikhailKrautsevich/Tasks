@@ -2,21 +2,28 @@ package com.example.hometask_03_contacts;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
+import java.util.List;
+
 import static android.widget.Toast.*;
 
 
@@ -26,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private TextView noContacts;
     static final int ADD_NEW_CONTACT = 900 ;
     static final int EDIT_CONTACT = 901 ;
+    static ArrayList<ContactClass> contacts = new ArrayList<>();
+    NameListAdapter adapter1;
+    LinearLayoutManager linearLayoutManager;
+    GridLayoutManager gridLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,18 +53,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerContacts = findViewById(R.id.recyclerContacts);
-        recyclerContacts.setAdapter(new NameListAdapter(this));
-        recyclerContacts.setLayoutManager(
-                new LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        );
+        if (linearLayoutManager == null) {
+            linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false) ;}
+        if (gridLayoutManager == null) {
+        gridLayoutManager = new GridLayoutManager(this, 2);}
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {recyclerContacts.setLayoutManager(linearLayoutManager);}
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {recyclerContacts.setLayoutManager(gridLayoutManager) ;}
         recyclerContacts.setVisibility(View.INVISIBLE);
+        if (adapter1==null) {
+            adapter1 = (NameListAdapter) recyclerContacts.getAdapter();}
+
+        recyclerContacts = findViewById(R.id.recyclerContacts);
+        recyclerContacts.setAdapter(adapter1);
+
+        SearchView searchView = (SearchView) findViewById(R.id.search) ;
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                adapter1.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        NameListAdapter adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
         if (adapter1 != null && adapter1.isListOfContactsEmpty()) {
             recyclerContacts.setVisibility(View.INVISIBLE);
             noContacts.setVisibility(View.VISIBLE);
@@ -102,12 +135,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> {
+    class NameListAdapter extends RecyclerView.Adapter<NameListAdapter.ItemViewHolder> implements Filterable {
 
-        ArrayList<ContactClass> contacts = new ArrayList<>();
+        ArrayList<ContactClass> contactsFull ;
 
         NameListAdapter(Context context) {
-
+            contactsFull = new ArrayList<>(contacts);
         }
 
         @NonNull
@@ -149,6 +182,38 @@ public class MainActivity extends AppCompatActivity {
             {contacts.remove(position);}
             notifyDataSetChanged();
         }
+
+        @Override
+        public Filter getFilter() {
+            return contactFilter;
+        }
+
+        private Filter contactFilter = new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                List<ContactClass> contactsFiltered = new ArrayList<>();
+                if (constraint == null || constraint.length()==0) {
+                    contactsFiltered.addAll(contactsFull); }
+                else {
+                    String pattern = constraint.toString().toLowerCase().trim();
+                    for (ContactClass con : contactsFull) {
+                        if (con.getName().toLowerCase().startsWith(pattern)) {
+                            contactsFiltered.add(con) ;
+                        }
+                    }
+                }
+                FilterResults results = new FilterResults();
+                results.values = contactsFiltered ;
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                contacts.clear();
+                contacts.addAll( (List) results.values);
+                notifyDataSetChanged();
+            }
+        } ;
 
         class ItemViewHolder extends RecyclerView.ViewHolder{
             private TextView nameText;
