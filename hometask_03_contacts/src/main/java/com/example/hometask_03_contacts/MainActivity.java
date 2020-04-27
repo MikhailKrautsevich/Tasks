@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
         if (adapter1==null)
         adapter1 = (NameListAdapter) recyclerContacts.getAdapter();
 
-        SearchView searchView = (SearchView) findViewById(R.id.search) ;
+        SearchView searchView = findViewById(R.id.search) ;
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -106,10 +106,10 @@ public class MainActivity extends AppCompatActivity {
                 boolean is = data.getBooleanExtra(EXTRAS.EXTRA_FOR_CONTACT_IS, false);
                 if (!(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME) == null) &&
                         !(data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO) == null)) {
-                    String conInfo;
-                    String conName;
-                    conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME).trim();
-                    conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO).trim();
+                    String conName = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_NAME).trim();
+                    String conInfo = data.getStringExtra(EXTRAS.EXTRA_FOR_CONTACT_INFO).trim();
+
+                    if (!conInfo.isEmpty() && !conName.isEmpty()) {
                     ContactClass newContact = new ContactClass(conName, is, conInfo);
 
                     if (!conInfo.isEmpty() && !conName.isEmpty()) {
@@ -119,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), R.string.somethingwrongwithc, LENGTH_SHORT)
                                 .show();
                     }
-                }
+                }}
                 break;
             }
             case (EDIT_CONTACT): {
