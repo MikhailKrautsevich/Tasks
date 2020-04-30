@@ -1,8 +1,8 @@
 package com.example.hometask_03_kotlinclasses
 
-class RecTriangle(side1: Int, side2: Int, side3: Int) : Figure() {
+class RecTriangle(side1: Int, side2: Int, side3: Int) : Triangle(Int, Int, Int) {
 
-    fun getSquare(side1: Int, side2: Int, side3: Int) : Double {
+    override fun getSquare(side1: Int, side2: Int, side3: Int) : Double {
         var square : Double
         var cathet1 = 0
         var cathet2 = 0
